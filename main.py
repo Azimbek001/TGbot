@@ -1,14 +1,16 @@
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-# from decouple import config
+from decouple import config
 
-TOKEN = "5996153983:AAE_bfT3EAyBX5uPul82ay1tN65TLM_hjlk"
+TOKEN = config("TOKEN")
 bot = Bot(TOKEN)
 dp = Dispatcher(bot=bot)
 
 @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message) -> None:
     await bot.send_message(message.chat.id, f"Привет {message.from_user.full_name}")
+    await message.answer("Введите команду /quiz чтобы сыграть в викторину")
+    await message.answer("Введите команду /mem чтобы посмотреть мем года)")
 
 @dp.message_handler(commands=['quiz'])
 async def quiz_1(message: types.Message) -> None:
@@ -60,7 +62,7 @@ async def quiz_2(callback: types.CallbackQuery):
 
 @dp.message_handler(commands=['mem'])
 async def mem_handler(message: types.Message):
-    await message.answer_photo(photo="https://cdn.trinixy.ru/pics6/20210930/218574_10_trinixy_ru.jpg", caption="Веселый мем!")
+    await message.answer_photo(photo="https://pressa.tv/uploads/posts/2022-02/1646036249_pressa_tv_mem-24.jpeg", caption="Веселый мем!")
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def square_handler(message: types.Message):
