@@ -18,7 +18,7 @@ async def echo_text(message: types.Message) -> None:
         await bot.pin_chat_message(message.chat.id, message.message_id)
         await message.pin()
 
-    if message.text.startswith('!game'):
+    if message.text.startswith('/game'):
         animated_emojis = ['🎯', '🎳', '⚽️', '🏀', '🎰', '🎲']
         random_emoji = random.choice(animated_emojis)
         await message.answer(random_emoji)
