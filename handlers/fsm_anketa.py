@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from handlers import keyboards
+from database.bot_db import sql_command_insert
 
 
 class FSMMentor(StatesGroup):
@@ -74,13 +75,14 @@ async def load_group(message: types.Message, state: FSMContext):
 
 async def submit(message: types.Message, state: FSMContext):
     if message.text.lower() == 'да':
+        await sql_command_insert(state)
         await FSMMentor.next()
         await message.answer("Записал в список менторов!")
     elif message.text.lower() == 'заново':
         await FSMMentor.name.set()
         await message.answer("Как звать?")
     else:
-        await message.answer("Используй кнопки!")
+        await message.answer("Используй кнопки!",reply_markup=keyboards.cancel_markup)
 
 
 async def cancel_reg(message: types.Message, state: FSMContext):
@@ -90,6 +92,8 @@ async def cancel_reg(message: types.Message, state: FSMContext):
         await message.answer("Ну и пошел ты!")
     else:
         await message.answer("Что ты отменяешь?!")
+
+
 
 
 
