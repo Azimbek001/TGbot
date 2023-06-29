@@ -1,7 +1,7 @@
 from aiogram import executor
 from config import dp, ADMINs, bot
 import logging
-from handlers import commands, callback, extra, admin, fsm_anketa
+from handlers import commands, callback, extra, admin, fsm_anketa, notifications
 
 
 fsm_anketa.register_handlers_fsm_anketa(dp)
@@ -13,6 +13,7 @@ extra.register_handlers_extra(dp)
 
 async def on_startup(dp):
     await bot.send_message(ADMINs[0], "Я родился!")
+    await notifications.set_scheduler()
 
 
 async def on_shutdown(dp):

@@ -45,17 +45,15 @@ async def mem_handler(message: types.Message):
     await message.answer_photo(photo="https://pressa.tv/uploads/posts/2022-02/1646036249_pressa_tv_mem-24.jpeg", caption="Веселый мем!")
 
 
-async def get_news(message: types.Message) -> None:
-    news = parser()
-    for i in news:
-        await message.answer_photo(
-            i['image'],
-            caption=f"<b>{i['time']}</b>\n"
-                    f"<a href='{i['url']}'>{i['title']}</a>\n",
-            reply_markup=InlineKeyboardMarkup().add(
-                InlineKeyboardButton("Сheck", url=i['url'])
-            ),
-            parse_mode=ParseMode.HTML
+async def get_news(message: types.Message):
+    news_list = parser()
+    for i in news_list:
+        await message.answer(
+            f"{i['link']}\n\n"
+            f"<b><a href='{i['link']}'>{i['title']}</a></b>\n"
+            f"{i['description']}\n"
+            f"{i['date_from_html']}\n",
+
         )
 
 
