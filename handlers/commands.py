@@ -4,6 +4,9 @@ from config import bot, dp , Dispatcher
 from .keyboards import start_markup
 from aiogram.types import ParseMode
 from parser2.news import parser
+import random
+import os
+
 
 
 @dp.message_handler(commands=['start'])
@@ -40,6 +43,23 @@ async def quiz_1(message: types.Message) -> None:
     )
 
 
+@dp.message_handler(commands=['meme'])
+async def send_meme(message: types.Message):
+
+    meme = generate_meme()
+
+    await bot.send_photo(message.chat.id, meme)
+
+
+def generate_meme():
+    meme_folder = "C:/Users/Азимбек/memes"
+    meme_files = os.listdir(meme_folder)
+    random_meme = random.choice(meme_files)
+    meme_path = os.path.join(meme_folder, random_meme)
+
+    return open(meme_path, 'rb')
+
+
 @dp.message_handler(commands=['mem'])
 async def mem_handler(message: types.Message):
     await message.answer_photo(photo="https://pressa.tv/uploads/posts/2022-02/1646036249_pressa_tv_mem-24.jpeg", caption="Веселый мем!")
@@ -61,5 +81,7 @@ def register_handlers_commands(dp: Dispatcher):
     dp.register_message_handler(start_command, commands=['start'])
     dp.register_message_handler(quiz_1, commands=['quiz'])
     dp.register_message_handler(get_news, commands=['news'])
+    dp.register_message_handler(send_meme, commands=['meme'])
+
 
 
